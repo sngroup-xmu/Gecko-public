@@ -1,0 +1,32 @@
+
+ucli
+pm
+port-add 9/- 100G NONE
+port-add 10/- 100G NONE
+port-add 11/- 100G NONE
+port-add 12/- 100G NONE
+port-add 22/- 100G NONE
+port-add 28/- 100G NONE
+port-add 30/- 100G NONE
+port-add 31/- 100G NONE
+port-enb 9/-
+port-enb 10/-
+port-enb 11/-
+port-enb 12/-
+port-enb 22/-
+port-enb 28/-
+port-enb 30/-
+port-enb 31/-
+exit
+bfrt
+
+
+bfrt.mirror.cfg.add_with_normal(sid=1,direction="EGRESS",ucast_egress_port=56,ucast_egress_port_valid=True,session_enable=True)
+bfrt.mirror.cfg.add_with_normal(sid=2,direction="EGRESS",ucast_egress_port=48,ucast_egress_port_valid=True,session_enable=True)
+bfrt.mirror.cfg.add_with_normal(sid=3,direction="EGRESS",ucast_egress_port=40,ucast_egress_port_valid=True,session_enable=True)
+bfrt.mirror.cfg.add_with_normal(sid=4,direction="EGRESS",ucast_egress_port=32,ucast_egress_port_valid=True,session_enable=True)
+bfrt.mirror.cfg.add_with_normal(sid=5,direction="EGRESS",ucast_egress_port=136,ucast_egress_port_valid=True,session_enable=True)
+
+
+ucli
+show

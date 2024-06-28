@@ -1,0 +1,114 @@
+2023/7/23 am
+
+备份main.c为main.c.bak
+
+修改main.c代码，根据实验次数、operation、宕机概率来命名文件
+two_轮次_宕机值_operation
+（line 337/382/400）
+
+timer_a_ingress.p4的362行为action_send_to_client
+编译启动交换机，跑a>100、operation=34的10次实验
+随后修改main.c编译跑2次a>10、operation=34后，交换机仍然再涨，关闭交换机。
+此时已跑：
+-rw-r--r--  1 root root 108890 Jul 23 10:59 two_0_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:07 two_0_10_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:00 two_1_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:07 two_1_10_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:01 two_2_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:01 two_3_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:02 two_4_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:02 two_5_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:03 two_6_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:04 two_7_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:04 two_8_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:04 two_9_100_op34.txt
+
+重启交换机，继续
+在a>10、operation=34的第6次在send.py未输入情况下跑起来，随后交换机包一直涨
+
+
+重启交换机，重跑第6次
+
+
+在a>10、operation=34的第9次输出异常，交换机包增长，检查发现第5次结果也异常
+存在大量0ms
+重启交换机，重跑第5/9次，并继续到本轮10次跑完，交换机未出现问题。
+
+跑完检查；two_1_10_op34后半段出现0ms，重跑（未重启交换机）
+报错
+mlx5_common: Failed to modify SQ using DevX
+mlx5_net: Cannot change the Tx SQ state to RESET Remote I/O error
+mlx5_common: Failed to modify SQ using DevX
+mlx5_net: Cannot change the Tx SQ state to RESET Remote I/O error
+
+重启所有，重跑
+至此：
+-rw-r--r--  1 root root 108890 Jul 23 10:59 two_0_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:07 two_0_10_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:00 two_1_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:44 two_1_10_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:01 two_2_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:10 two_2_10_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:01 two_3_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:20 two_3_10_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:02 two_4_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:34 two_4_10_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:02 two_5_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:26 two_5_10_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:03 two_6_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:28 two_6_10_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:04 two_7_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:29 two_7_10_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:04 two_8_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:35 two_8_10_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:04 two_9_100_op34.txt
+-rw-r--r--  1 root root 108890 Jul 23 11:36 two_9_10_op34.txt
+
+推出交换机
+新建result文件夹，并将当前结果移入该文件夹
+
+修改main.c，337行下一个10轮，382行结果放入result文件夹
+
+编译main.c、重启交换机，继续下个10轮
+正常跑完
+
+
+main.c修改337行，编译、重启交换机，继续下个10轮
+two_0_-1_op34出现0ms问题
+重新编译p4文件，重启交换机，再跑
+
+
+two_7_-1_op34出现报错
+mlx5_common: Failed to modify SQ using DevX
+mlx5_net: Cannot change the Tx SQ state to RESET Remote I/O error
+重启p4，重跑
+
+本轮结束，退出交换机，干饭！
+
+
+
+2023/07/23 pm
+
+修改timer_a_ingress.p4的362行为action_send_to_master
+修改main.c的382/351行，继续下一轮
+
+P999,下一轮
+two_6_1_op35 出现0ms，重跑
+再次出错，再跑
+
+
+P99，改main，编译，交换机重启
+two_1_10_op35 报错，重跑
+two_5_10_op35 报错，重跑
+
+
+P999，改main，编译，交换机重启
+two_3_100_op35 报错，重跑
+
+over
+
+重跑two_0_-1_op35、two_4_100_op35、two_8_1_op35
+
+修改main.c开始跑0.01%到0.1%之间的概率
+
+

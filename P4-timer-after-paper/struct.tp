@@ -1,0 +1,205 @@
+struct hardware_resource {
+    /*硬件资源的名字*/
+    char *name;
+
+    /*字段资源*/
+    struct field_resource field;
+
+    /*流表资源*/
+    struct table_resource table;
+    
+    /*表项资源*/
+    struct entry_resource entry；
+
+    /*动作资源*/
+    struct action_resource action;
+
+    /*计算资源*/
+    struct mau_resource mau;
+
+    /*逻辑控制资源*/
+    struct logic_resource logic;
+}
+
+/*字段资源*/
+struct field_resource {
+    /*硬件最大字段支持数量*/
+    int filed_num;
+
+    /*硬件可以parser出来的最大字段数量*/
+    int flied_max_parser;
+
+    /*单次偏移的最大长度,以比特为单位*/
+    int flied_parser_max_len;
+
+    /*单次偏移的最小单元,以比特为单位*/
+    int flied_parser_min_u;
+
+    /*硬件可以添加的最大字段数量*/
+    int filed_max_append;
+
+    /*硬件可以去除的最大字段数量*/
+    int filed_max_remove;
+
+    /*单个字段的最大长度,以比特为单位*/
+    int field_max_len；
+
+    /*单个字段的最小长度,以比特为单位*/
+    int field_min_len;
+
+    /*单个字段的最小单元,以比特为单位*/
+    int field_min_u;
+
+    /*硬件整体支持的最大字段容量*/
+    int field_max_capacity;
+
+    /*是否支持局部操作*/
+    bool local_operation;      // tmp = src_ip[8:16];
+}
+
+/*流表资源*/
+struct table_resource {
+    /*硬件最大支持流表数量*/
+    int table_num;
+
+    /*硬件最大支持串行流表数量，本质上就是stage的数量*/
+    int table_max_serial;
+
+    /*硬件最大支持并行流表数量，体现单一stage的并行能力*/
+    int table_max_parallel;
+
+    /*硬件最大支持exact流表数量*/
+    int table_max_exact;
+
+    /*硬件最大支持ternary流表数量*/
+    int table_max_ternary;
+
+    /*单个流表的最大的key总长度，单位比特*/
+    int table_max_key_len;
+
+    /*单个流表的最大的key数量*/
+    int table_max_key_num;
+
+    /*流表的单个key最大长度，单位比特*/
+    int table_max_single_key_len;
+
+    /*流表的单个key最小构成单位长度，单位比特*/
+    int table_min_single_key_u;
+
+    /*流表是否能跨stage部署*/
+    bool table_across_stage;
+}
+
+/*表项资源*/
+struct entry_resource {
+    /*exact下，单个stage最大entry数量*/
+    int exact_entry_max_num;
+
+    /*exact下，entry数量是否和key宽度有关系*/
+    bool exact_entry_combine_key;
+
+    /*如果有的话，乘法答案是什么。比特单位*//*try*/
+    int exact_entry_capacity;
+
+    /*exact下，单个流表单个stage最大entry数量*/
+    int exact_entry_max_num;
+
+    /*ternary下，单个stage最大entry数量*/
+    int ternary_entry_max_num;
+
+    /*ternary下，entry数量是否和key宽度有关系*/
+    bool ternary_entry_combine_key;
+
+    /*如果有的话，乘法答案是什么。比特单位*//*try*/
+    int ternary_entry_capacity;
+
+    /*ternary下，单个流表单个stage最大entry数量*/
+    int ternary_entry_max_num;
+}
+
+/*动作资源*/
+struct action_resource {
+    /*整个硬件最大支持的action数量*/
+    int action_num;
+
+    /*单个stage最大支持的action数量*/
+    int action_single_stage_num;
+
+    /*单个action支持的原子操作数量*/
+    int action_operation_num;
+}
+
+/*计算资源*/
+struct mau_resourcestruct{
+    /*是否支持加法*/
+    bool support_add;
+
+    /*加法操作数位宽*/
+    int add_width;
+
+    /*加法是否支持二元操作*/
+    bool support_add_two;
+
+    /*是否支持减法*/
+    bool support_sub;
+
+    /*减法操作数位宽*/
+    int sub_width;
+
+    /*减法是否支持二元操作*/
+    bool support_sub_two;
+
+    /*是否支持乘法*/
+    bool support_mul;
+
+    /*乘法操作数位宽*/
+    int mul_width;
+
+    /*乘法是否支持二元操作*/
+    bool support_mul_two;
+
+    /*是否支持除法*/
+    bool support_div;
+
+    /*除法操作数位宽*/
+    int div_width;
+
+    /*除法是否支持二元操作*/
+    bool support_div_two;
+
+    /*是否支持位移操作*/
+    bool support_disp;
+
+    /*位移操作数位宽*/
+    int disp_width;
+
+    /*是否支持与操作*/
+    bool support_and;
+
+    /*与操作位宽*/
+    int and_width;
+
+    /*是否支持或操作*/
+    bool support_or;
+
+    /*或操作位宽*/
+    int or_width;
+
+    /*是否支持异或操作*/
+    bool support_xor;
+
+    /*异或操作位宽*/
+    int xor_width;
+}
+
+/*逻辑控制资源*/
+struct logic_resource {
+    /*是否支持if*/
+    bool support_if;
+
+    /*是否支持比较*/
+    bool support_compare;
+
+    /*比较位宽*/   
+    int compare_width;
+}
